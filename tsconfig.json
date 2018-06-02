@@ -1,0 +1,13 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "target": "es6",
+    "jsx": "react",
+    "module": "commonjs",
+    // "types" : ["node"],
+    "declaration": true
+  },
+  "exclude": ["node_modules", "lib", "es"]
+}
