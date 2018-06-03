@@ -5,7 +5,6 @@ const path = require("path");
 function build() {
     // const webpackConfig = require(path.join(process.cwd(), "webpack.config.ts"));
     const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
-    console.log(webpackConfig.default);
     webpack(webpackConfig.default(), (err, stats) => {
         if (err) {
             console.error(err.stack || err);

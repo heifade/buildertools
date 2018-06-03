@@ -4,32 +4,26 @@ import getBabelConfig from "../babel/babel.config";
 import * as CleanWebpackPlugin from "clean-webpack-plugin";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { getModulesPath } from "../utils/getModulesPath";
 
 export default function(env: any, argv: any) {
   let modules = false;
 
-  const modulesPath = path.resolve(__dirname, "../node_modules");
+  let modulesPath = getModulesPath();
   let babelConfig = getBabelConfig(modules || false, modulesPath);
-
-  console.log(11, modulesPath);
-
-  let projConfig = require(path.resolve(
-    process.cwd(),
-    "./buildertools.config.js"
-  ));
 
   let config: webpack.Configuration = {
     mode: "development",
     entry: {
-      [`index`]: path.resolve("./src/index")
+      index: path.resolve(process.cwd(), "./src/index")
     },
     output: {
-      path: path.resolve("./dist"),
+      path: path.resolve(process.cwd(), "./dist"),
       filename: "[name].js"
     },
     devtool: "source-map",
     resolve: {
-      modules: ["node_modules", path.join(__dirname, "../node_modules")],
+      modules: ["node_modules", path.join(process.cwd(), "../node_modules")],
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
     },
     target: "web",
@@ -148,10 +142,10 @@ export default function(env: any, argv: any) {
       //     ecma: 6
       //   }
       // }),
-      // new HtmlWebpackPlugin({
-      //   title: "learn Webpack",
-      //   template: "./public/index.html"
-      // }),
+      new HtmlWebpackPlugin({
+        // title: "learn Webpack",
+        template: path.relative(process.cwd(), "./public/index.html")
+      }),
       // new webpack.ProgressPlugin((percentage, msg, addInfo) => {
       //   const stream = process.stdout;
       //   if (stream.isTTY && percentage < 0.71) {
@@ -179,9 +173,12 @@ export default function(env: any, argv: any) {
     }
   };
 
-  if (projConfig.entry) {
-    config.entry = projConfig.entry;
-  }
+  let projConfig = require(path.resolve(
+    process.cwd(),
+    "./buildertools.config.js"
+  ));
 
-  return config;
+
+
+  return { ...config, ...projConfig };
 }

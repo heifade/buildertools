@@ -3,25 +3,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const babel_config_1 = require("../babel/babel.config");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const getModulesPath_1 = require("../utils/getModulesPath");
 function default_1(env, argv) {
     let modules = false;
-    const modulesPath = path.resolve(__dirname, "../node_modules");
+    let modulesPath = getModulesPath_1.getModulesPath();
     let babelConfig = babel_config_1.default(modules || false, modulesPath);
-    console.log(11, modulesPath);
-    let projConfig = require(path.resolve(process.cwd(), "./buildertools.config.js"));
     let config = {
         mode: "development",
         entry: {
-            [`index`]: path.resolve("./src/index")
+            index: path.resolve(process.cwd(), "./src/index")
         },
         output: {
-            path: path.resolve("./dist"),
+            path: path.resolve(process.cwd(), "./dist"),
             filename: "[name].js"
         },
         devtool: "source-map",
         resolve: {
-            modules: ["node_modules", path.join(__dirname, "../node_modules")],
+            modules: ["node_modules", path.join(process.cwd(), "../node_modules")],
             extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
         },
         target: "web",
@@ -136,10 +136,10 @@ function default_1(env, argv) {
             //     ecma: 6
             //   }
             // }),
-            // new HtmlWebpackPlugin({
-            //   title: "learn Webpack",
-            //   template: "./public/index.html"
-            // }),
+            new HtmlWebpackPlugin({
+                // title: "learn Webpack",
+                template: path.relative(process.cwd(), "./public/index.html")
+            }),
             // new webpack.ProgressPlugin((percentage, msg, addInfo) => {
             //   const stream = process.stdout;
             //   if (stream.isTTY && percentage < 0.71) {
@@ -165,9 +165,7 @@ function default_1(env, argv) {
             publicPath: "/"
         }
     };
-    if (projConfig.entry) {
-        config.entry = projConfig.entry;
-    }
-    return config;
+    let projConfig = require(path.resolve(process.cwd(), "./buildertools.config.js"));
+    return Object.assign({}, config, projConfig);
 }
 exports.default = default_1;

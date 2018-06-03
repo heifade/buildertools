@@ -6,7 +6,6 @@ export function build() {
 
   const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
 
-  console.log(webpackConfig.default);
 
   webpack(webpackConfig.default(), (err, stats) => {
     if (err) {
