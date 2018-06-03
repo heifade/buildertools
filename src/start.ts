@@ -6,9 +6,11 @@ const openBrowser = require("open");
 import chalk from "chalk";
 import webpackConfig from "./configs/webpack.config";
 
-export function start() {
-  // const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
+export interface StartPars {
+  port: number;
+}
 
+export function start(pars: StartPars) {
   let server = new Server(webpack(webpackConfig()), {
     disableHostCheck: true,
     hot: true,
@@ -19,7 +21,7 @@ export function start() {
   });
 
   let host = ip.address();
-  let port = 3000;
+  let port = pars.port;
 
   server.listen(port, "0.0.0.0", function() {
     console.log(chalk.green(`Starting server on http://${host}:${port}`));

@@ -5,6 +5,9 @@ import * as CleanWebpackPlugin from "clean-webpack-plugin";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { getModulesPath } from "../utils/getModulesPath";
+import { existsSync } from "fs";
+import chalk from "chalk";
+import { isFunction, isObject } from "util";
 
 export default function() {
   let modules = false;
@@ -169,7 +172,22 @@ export default function() {
     }
   };
 
-  let projConfig = require(path.resolve(process.cwd(), "./buildertools.config.js"));
+  let buildertoolsConfig = path.resolve(process.cwd(), "./buildertools.config.js");
+  let projConfig;
+  if (existsSync(buildertoolsConfig)) {
+    let projConfigValue = require(buildertoolsConfig);
+    if (isFunction(projConfigValue)) {
+      projConfig = projConfigValue();
+    } else if (isObject(projConfigValue)) {
+      projConfig = projConfigValue;
+    } else {
+      console.log(chalk.bold.red(`配置文件${buildertoolsConfig}内容不正确！`));
+      return null;
+    }
+  } else {
+    console.log(chalk.bold.red(`找不到配置文件${buildertoolsConfig}！`));
+    return null;
+  }
 
   return { ...config, ...projConfig };
 }

@@ -6,6 +6,9 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const getModulesPath_1 = require("../utils/getModulesPath");
+const fs_1 = require("fs");
+const chalk_1 = require("chalk");
+const util_1 = require("util");
 function default_1() {
     let modules = false;
     let modulesPath = getModulesPath_1.getModulesPath();
@@ -164,7 +167,25 @@ function default_1() {
             publicPath: "/"
         }
     };
-    let projConfig = require(path.resolve(process.cwd(), "./buildertools.config.js"));
+    let buildertoolsConfig = path.resolve(process.cwd(), "./buildertools.config.js");
+    let projConfig;
+    if (fs_1.existsSync(buildertoolsConfig)) {
+        let projConfigValue = require(buildertoolsConfig);
+        if (util_1.isFunction(projConfigValue)) {
+            projConfig = projConfigValue();
+        }
+        else if (util_1.isObject(projConfigValue)) {
+            projConfig = projConfigValue;
+        }
+        else {
+            console.log(chalk_1.default.bold.red(`配置文件${buildertoolsConfig}内容不正确！`));
+            return null;
+        }
+    }
+    else {
+        console.log(chalk_1.default.bold.red(`找不到配置文件${buildertoolsConfig}！`));
+        return null;
+    }
     return Object.assign({}, config, projConfig);
 }
 exports.default = default_1;

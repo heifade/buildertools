@@ -4,6 +4,7 @@ import { build } from "../build";
 import { start } from "../start";
 
 let packageInfo = require("../../package.json");
+program.version(`${packageInfo.version}`);
 
 program
   .command("build")
@@ -15,10 +16,11 @@ program
 program
   .command("start")
   .description("运行")
-  .option("-p, --port <n>", "端口号")
-  .action(function(...options) {
-    console.log(9, options);
-    start();
+  .option("-p, --port <n>", "端口号", null, 3000)
+  .action(function(options) {
+    start({
+      port: options.port
+    });
   });
 
 program.on("command:*", function() {
