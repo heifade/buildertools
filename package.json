@@ -9,8 +9,7 @@
   "scripts": {
     "build": "gulp build",
     "start": "npm run build && node ./bin/buildertools.js build",
-    "pub": "npm run build && node ./dist/addVersion.js && npm publish",
-    "build1": "webpack --config ./configs/webpack.config.ts --progress --verbose"
+    "pub": "npm run build && node ./dist/addVersion.js && npm publish"
   },
   "keywords": [],
   "author": "",
