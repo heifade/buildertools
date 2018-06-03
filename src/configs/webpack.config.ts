@@ -17,6 +17,7 @@ export default function(): webpack.Configuration {
 
   let config: webpack.Configuration = {
     mode: "development",
+    context: process.cwd(),
     entry: {
       index: path.resolve(process.cwd(), "./src/index")
     },
@@ -164,7 +165,14 @@ export default function(): webpack.Configuration {
         filename: "[chunkhash:8].[name].css",
         chunkFilename: "[id].css"
       }),
-    ]
+      new webpack.NamedModulesPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
+    ],
+    devServer: {
+      port: 8080,
+      open: true,
+      publicPath: "/"
+    }
   };
 
   let buildertoolsConfig = path.resolve(process.cwd(), "./buildertools.config.js");

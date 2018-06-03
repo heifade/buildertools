@@ -16,7 +16,7 @@ program
 program
   .command("start")
   .description("运行")
-  .option("-p, --port <n>", "端口号", null, 3000)
+  .option("-p, --port <n>", "端口号", null, 8080)
   .action(function(options) {
     start({
       port: options.port

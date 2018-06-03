@@ -17,17 +17,27 @@ export function start(pars: StartPars) {
   let port = pars.port;
 
   let serverConfig: Server.Configuration = {
-    contentBase: config.output.path,
-    compress: true,
-    disableHostCheck: true,
-    host: "0.0.0.0",
-    hot: true,
-    stats: {
-      colors: true,
-      errorDetails: true
-    }
+    ...config.devServer,
+    ...{
+      contentBase: path.resolve(process.cwd(), "./dist"),
+      stats: {
+        colors: true
+      },
+      compress: true,
+      disableHostCheck: true,
+      host: "0.0.0.0",
+      hot: true,
+      // hotOnly: true,
+
+    },
   };
 
+  console.log(1, serverConfig);
+
+
+
+
+  //Server.addDevServerEntrypoints(config, c);
   let server = new Server(webpack(config), serverConfig);
 
   server.listen(port, "0.0.0.0", function() {
