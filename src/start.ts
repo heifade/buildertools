@@ -11,17 +11,24 @@ export interface StartPars {
 }
 
 export function start(pars: StartPars) {
-  let server = new Server(webpack(webpackConfig()), {
+  let config = webpackConfig();
+
+  let host = ip.address();
+  let port = pars.port;
+
+  let serverConfig: Server.Configuration = {
+    contentBase: config.output.path,
+    compress: true,
     disableHostCheck: true,
+    host: "0.0.0.0",
     hot: true,
     stats: {
       colors: true,
       errorDetails: true
     }
-  });
+  };
 
-  let host = ip.address();
-  let port = pars.port;
+  let server = new Server(webpack(config), serverConfig);
 
   server.listen(port, "0.0.0.0", function() {
     console.log(chalk.green(`Starting server on http://${host}:${port}`));

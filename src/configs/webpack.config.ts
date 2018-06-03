@@ -9,7 +9,7 @@ import { existsSync } from "fs";
 import chalk from "chalk";
 import { isFunction, isObject } from "util";
 
-export default function() {
+export default function(): webpack.Configuration {
   let modules = false;
 
   let modulesPath = getModulesPath();
@@ -163,13 +163,8 @@ export default function() {
       new MiniCssExtractPlugin({
         filename: "[chunkhash:8].[name].css",
         chunkFilename: "[id].css"
-      })
-    ],
-    devServer: {
-      port: 9000,
-      open: true,
-      publicPath: "/"
-    }
+      }),
+    ]
   };
 
   let buildertoolsConfig = path.resolve(process.cwd(), "./buildertools.config.js");
