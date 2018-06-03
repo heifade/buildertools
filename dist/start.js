@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Server = require("webpack-dev-server");
 const webpack = require("webpack");
-const path = require("path");
 const ip = require("ip");
 const openBrowser = require("open");
 const chalk_1 = require("chalk");
+const webpack_config_1 = require("./configs/webpack.config");
 function start() {
-    const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
-    let server = new Server(webpack(webpackConfig.default()), {
+    // const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
+    let server = new Server(webpack(webpack_config_1.default()), {
         disableHostCheck: true,
         hot: true,
         stats: {

@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const getModulesPath_1 = require("../utils/getModulesPath");
-function default_1(env, argv) {
+function default_1() {
     let modules = false;
     let modulesPath = getModulesPath_1.getModulesPath();
     let babelConfig = babel_config_1.default(modules || false, modulesPath);
@@ -137,7 +137,6 @@ function default_1(env, argv) {
             //   }
             // }),
             new HtmlWebpackPlugin({
-                // title: "learn Webpack",
                 template: path.relative(process.cwd(), "./public/index.html")
             }),
             // new webpack.ProgressPlugin((percentage, msg, addInfo) => {

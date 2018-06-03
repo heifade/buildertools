@@ -4,15 +4,12 @@ import * as path from "path";
 import * as ip from "ip";
 const openBrowser = require("open");
 import chalk from "chalk";
+import webpackConfig from "./configs/webpack.config";
 
 export function start() {
-  const webpackConfig = require(path.resolve(
-    __dirname,
-    "./configs/webpack.config.js"
-  ));
+  // const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
 
-
-  let server = new Server(webpack(webpackConfig.default()), {
+  let server = new Server(webpack(webpackConfig()), {
     disableHostCheck: true,
     hot: true,
     stats: {

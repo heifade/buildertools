@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const webpack = require("webpack");
-const path = require("path");
+const webpack_config_1 = require("./configs/webpack.config");
 function build() {
-    // const webpackConfig = require(path.join(process.cwd(), "webpack.config.ts"));
-    const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
-    webpack(webpackConfig.default(), (err, stats) => {
+    // const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
+    webpack(webpack_config_1.default(), (err, stats) => {
         if (err) {
             console.error(err.stack || err);
             // if (err.details) {

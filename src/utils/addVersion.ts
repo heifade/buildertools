@@ -49,5 +49,4 @@ function addVersion() {
   return versionNew;
 }
 
-
 addVersion();

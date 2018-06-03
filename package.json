@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "gulp build",
-    "start": "npm run build && node ./bin/buildertools.js build",
+    "start": "npm run build && node ./bin/buildertools.js start -p 100",
     "pub": "npm run build && node ./dist/addVersion.js && npm publish"
   },
   "keywords": [],

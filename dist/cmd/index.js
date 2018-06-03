@@ -12,8 +12,10 @@ program
 });
 program
     .command("start")
+    .option('-p, --port <n>', '端口号', parseInt, '6000')
     .description("运行")
-    .action(function (cmd) {
+    .action(function (cmd, options) {
+    console.log(9, options);
     start_1.start();
 });
 program.on("command:*", function () {

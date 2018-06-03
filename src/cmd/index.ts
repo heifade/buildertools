@@ -15,7 +15,9 @@ program
 program
   .command("start")
   .description("运行")
-  .action(function(cmd) {
+  .option("-p, --port <n>", "端口号")
+  .action(function(...options) {
+    console.log(9, options);
     start();
   });
 

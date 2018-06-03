@@ -1,13 +1,11 @@
 import * as webpack from "webpack";
 import * as path from "path";
+import webpackConfig from "./configs/webpack.config";
 
 export function build() {
-  // const webpackConfig = require(path.join(process.cwd(), "webpack.config.ts"));
+  // const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
 
-  const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
-
-
-  webpack(webpackConfig.default(), (err, stats) => {
+  webpack(webpackConfig(), (err, stats) => {
     if (err) {
       console.error(err.stack || err);
       // if (err.details) {
