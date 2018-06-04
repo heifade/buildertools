@@ -10,7 +10,7 @@ program
   .command("build")
   .description("构建")
   .action(function(cmd) {
-    build();
+    build().then(result => {});
   });
 
 program

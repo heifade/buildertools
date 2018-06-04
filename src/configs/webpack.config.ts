@@ -14,20 +14,25 @@ export default function(): webpack.Configuration {
 
   let modulesPath = getModulesPath();
   let babelConfig = getBabelConfig(modules || false, modulesPath);
+  const CWD = process.cwd();
 
   let config: webpack.Configuration = {
     mode: "development",
-    context: process.cwd(),
+    context: CWD,
     entry: {
-      index: path.resolve(process.cwd(), "./src/index")
+      //index: path.resolve(CWD, "./src/index")
+      index: [
+        path.relative(__dirname, '../../webpack-dev-server/client'),
+        path.resolve(CWD, "./src/index")
+      ]
     },
     output: {
-      path: path.resolve(process.cwd(), "./dist"),
-      filename: "[name].js"
+      path: path.resolve(CWD, "./dist"),
+      filename: "[name].[hash:8].js"
     },
     devtool: "source-map",
     resolve: {
-      modules: ["node_modules", path.join(process.cwd(), "../node_modules")],
+      modules: ["node_modules", path.join(CWD, "../node_modules")],
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
     },
     target: "web",
@@ -83,6 +88,9 @@ export default function(): webpack.Configuration {
           exclude: /node_modules/,
           use: [
             MiniCssExtractPlugin.loader,
+            // {
+            //   loader: path.resolve(modulesPath, "style-loader"),
+            // },
             {
               loader: path.resolve(modulesPath, "css-loader"),
               options: {
@@ -136,7 +144,7 @@ export default function(): webpack.Configuration {
     },
 
     plugins: [
-      new CleanWebpackPlugin(["dist"]),
+      new CleanWebpackPlugin(["./dist"]),
       // new UglifyjsWebpackPlugin({
       //   parallel: true,
       //   uglifyOptions: {
@@ -144,7 +152,7 @@ export default function(): webpack.Configuration {
       //   }
       // }),
       new HtmlWebpackPlugin({
-        template: path.relative(process.cwd(), "./public/index.html")
+        template: path.relative(CWD, "./public/index.html")
       }),
       // new webpack.ProgressPlugin((percentage, msg, addInfo) => {
       //   const stream = process.stdout;
@@ -162,11 +170,11 @@ export default function(): webpack.Configuration {
       //   "process.env.NODE_ENV": JSON.stringify("Hellow")
       // }),
       new MiniCssExtractPlugin({
-        filename: "[chunkhash:8].[name].css",
-        chunkFilename: "[id].css"
+        filename: "[name].[chunkhash:8].css"
+        // chunkFilename: "[id].css"
       }),
       new webpack.NamedModulesPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
+      new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
       port: 8080,
@@ -175,22 +183,5 @@ export default function(): webpack.Configuration {
     }
   };
 
-  let buildertoolsConfig = path.resolve(process.cwd(), "./buildertools.config.js");
-  let projConfig;
-  if (existsSync(buildertoolsConfig)) {
-    let projConfigValue = require(buildertoolsConfig);
-    if (isFunction(projConfigValue)) {
-      projConfig = projConfigValue();
-    } else if (isObject(projConfigValue)) {
-      projConfig = projConfigValue;
-    } else {
-      console.log(chalk.bold.red(`配置文件${buildertoolsConfig}内容不正确！`));
-      return null;
-    }
-  } else {
-    console.log(chalk.bold.red(`找不到配置文件${buildertoolsConfig}！`));
-    return null;
-  }
-
-  return { ...config, ...projConfig };
+  return config;
 }

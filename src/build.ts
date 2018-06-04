@@ -1,11 +1,16 @@
 import * as webpack from "webpack";
 import * as path from "path";
 import webpackConfig from "./configs/webpack.config";
+import { applyConfig } from "./configs/applyConfig";
 
-export function build() {
+export async function build() {
   // const webpackConfig = require(path.resolve(__dirname, "./configs/webpack.config.js"));
 
-  webpack(webpackConfig(), (err, stats) => {
+  let config = await applyConfig(webpackConfig());
+
+  
+
+  webpack(config, (err, stats) => {
     if (err) {
       console.error(err.stack || err);
       // if (err.details) {

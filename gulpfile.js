@@ -3,10 +3,12 @@ const gts = require("gulp-typescript");
 const tsProject = gts.createProject("tsconfig.json");
 const rimraf = require("rimraf");
 
-gulp.task("build", () => {
+gulp.task("clean", () => {
   rimraf.sync("./yarn-error.log");
   rimraf.sync("./dist");
+});
 
+gulp.task("build", ["clean"], () => {
   return tsProject
     .src()
     .pipe(tsProject())

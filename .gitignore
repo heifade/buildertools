@@ -5,12 +5,10 @@
 
 # production
 /dist
+/demo/dist
 
 # misc
 .DS_Store
 npm-debug.log*
 
 /.nyc_output
-
-
-/project1

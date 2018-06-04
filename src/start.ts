@@ -17,31 +17,36 @@ export function start(pars: StartPars) {
   let port = pars.port;
 
   let serverConfig: Server.Configuration = {
+    // ...config.devServer,
+    // ...{
+    //   contentBase: path.resolve(process.cwd(), "./dist"),
+    //   stats: {
+    //     colors: true
+    //   },
+    //   compress: true,
+    //   disableHostCheck: true,
+    //   host: "0.0.0.0",
+    //   hot: true,
+    //   // hotOnly: true,
+
+    // },
     ...config.devServer,
     ...{
-      contentBase: path.resolve(process.cwd(), "./dist"),
       stats: {
         colors: true
-      },
-      compress: true,
-      disableHostCheck: true,
-      host: "0.0.0.0",
-      hot: true,
-      // hotOnly: true,
-
-    },
+      }
+    }
   };
 
-  console.log(1, serverConfig);
 
-
+  let compiler = webpack(config);
 
 
   //Server.addDevServerEntrypoints(config, c);
-  let server = new Server(webpack(config), serverConfig);
+  let server = new Server(compiler, serverConfig);
 
   server.listen(port, "0.0.0.0", function() {
     console.log(chalk.green(`Starting server on http://${host}:${port}`));
-    openBrowser(`http://${host}:${port}`);
+    // openBrowser(`http://${host}:${port}`);
   });
 }
