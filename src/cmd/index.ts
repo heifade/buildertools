@@ -20,7 +20,7 @@ program
   .action(function(options) {
     start({
       port: options.port
-    });
+    }).then(result => {});
   });
 
 program.on("command:*", function() {

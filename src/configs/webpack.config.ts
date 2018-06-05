@@ -7,7 +7,6 @@ import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { getModulesPath } from "../utils/getModulesPath";
 import { existsSync } from "fs";
 import chalk from "chalk";
-import { isFunction, isObject } from "util";
 
 export default function(): webpack.Configuration {
   let modules = false;
@@ -19,13 +18,12 @@ export default function(): webpack.Configuration {
   let config: webpack.Configuration = {
     mode: "development",
     context: CWD,
-    entry: {
-      //index: path.resolve(CWD, "./src/index")
-      index: [
-        path.relative(__dirname, '../../webpack-dev-server/client'),
-        path.resolve(CWD, "./src/index")
-      ]
-    },
+    // entry: {
+    //   index: [
+    //     path.relative(__dirname, '../../webpack-dev-server/client'),
+    //     path.resolve(CWD, "./src/index")
+    //   ]
+    // },
     output: {
       path: path.resolve(CWD, "./dist"),
       filename: "[name].[hash:8].js"

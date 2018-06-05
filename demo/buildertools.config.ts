@@ -11,8 +11,3 @@ let config: BuildertoolsConfig = {
 };
 
 export default config;
-
-
-
-
-console.log(999);
