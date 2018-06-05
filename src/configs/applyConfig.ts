@@ -4,6 +4,7 @@ import { existsSync, writeFileSync, createWriteStream } from "fs";
 import chalk from "chalk";
 import { tsc } from "../utils/tsc";
 import { isObject, isString } from "util";
+import { getModulesPath } from "../utils/getModulesPath";
 const rimraf = require("rimraf");
 
 async function buildProjectConfig(file: string) {
@@ -42,7 +43,8 @@ export async function applyConfig(pars: Props) {
         for (let key in entry) {
           let entryValue = entry[key];
           if (isString(entryValue)) {
-            projConfig.entry[key] = [path.relative(CWD, `../node_modules/webpack-dev-server/client`) + `?http://localhost:${pars.port}`, entryValue];
+            let modulesPath = getModulesPath();
+            projConfig.entry[key] = [path.relative(modulesPath, `../node_modules/webpack-dev-server/client`) + `?http://localhost:${pars.port}`, entryValue];
           }
         }
       }

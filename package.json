@@ -1,11 +1,15 @@
 {
   "name": "buildertools",
-  "version": "1.0.0-beta10",
+  "version": "1.0.0-beta12",
   "description": "",
   "main": "index.js",
   "bin": {
     "buildertools": "./bin/buildertools.js"
   },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "scripts": {
     "build": "gulp build",
     "build-demo": "npm run build && cd ./demo && node ../bin/buildertools.js build",
