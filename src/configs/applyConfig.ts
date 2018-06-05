@@ -44,7 +44,7 @@ export async function applyConfig(pars: Props) {
           let entryValue = entry[key];
           if (isString(entryValue)) {
             let modulesPath = getModulesPath();
-            projConfig.entry[key] = [path.relative(modulesPath, `../node_modules/webpack-dev-server/client`) + `?http://localhost:${pars.port}`, entryValue];
+            projConfig.entry[key] = [path.join(modulesPath, `./webpack-dev-server/client`) + `?http://localhost:${pars.port}`, entryValue];
           }
         }
       }
@@ -52,8 +52,6 @@ export async function applyConfig(pars: Props) {
 
     pars.webconfig.entry = projConfig.entry;
   }
-
-  console.log(pars.webconfig.entry);
 
   return pars.webconfig;
 }
