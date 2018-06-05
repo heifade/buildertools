@@ -46,6 +46,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "babelify": "^8.0.0",
     "browserify": "^16.2.2",
     "buildertools-config": "^0.0.1-beta2",
     "chalk": "^2.4.1",

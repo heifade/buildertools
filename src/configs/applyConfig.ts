@@ -3,20 +3,23 @@ import * as path from "path";
 import { existsSync, writeFileSync, createWriteStream } from "fs";
 import chalk from "chalk";
 import * as browserify from "browserify";
+const babelify = require("babelify");
 const tsify = require("tsify");
+const rimraf = require("rimraf");
 
 function buildProjectConfig(file: string) {
   return new Promise<string>((resolve, reject) => {
     let CWD = process.cwd();
     let tempConfigFile = path.resolve(CWD, `./temp_${new Date().getTime()}.js`);
-    let configWriter = createWriteStream(tempConfigFile);
+    let configWriter = createWriteStream(tempConfigFile, { encoding: "utf8" });
 
     browserify()
       .add(file)
-      .plugin(tsify, { noImplicitAny: true, target: "es6" })
+      .plugin(tsify, { noImplicitAny: false })
       .bundle()
       .pipe(configWriter)
       .on("finish", () => {
+        configWriter.close();
         resolve(tempConfigFile);
       });
   });
@@ -29,11 +32,21 @@ export async function applyConfig(webconfig: webpack.Configuration) {
 
   let tempConfigFile = await buildProjectConfig(buildertoolsConfig);
 
+  console.log(tempConfigFile);
+
+  
+
   let config = require(tempConfigFile);
 
-  console.log(config);
+  console.log(config.default);
 
-  return '';
+  // console.log(config);
+
+  setTimeout(() => {
+    // rimraf.sync(tempConfigFile);
+  }, 1000);
+
+  return "";
 
   // if (!existsSync(buildertoolsConfig)) {
   //   let msg = `找不到配置文件${buildertoolsConfig}！`;
