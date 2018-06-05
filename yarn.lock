@@ -1420,9 +1420,9 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buildertools-config@^0.0.1-beta2:
-  version "0.0.1-beta2"
-  resolved "https://registry.npmjs.org/buildertools-config/-/buildertools-config-0.0.1-beta2.tgz#cadef5174e2ed27290aeb55b9b00e3e1684145af"
+buildertools-config@^0.0.1-beta3:
+  version "0.0.1-beta3"
+  resolved "https://registry.npmjs.org/buildertools-config/-/buildertools-config-0.0.1-beta3.tgz#579b57085536078e3e68a5031b6e8d00d4b71443"
 
 builtin-modules@^1.0.0:
   version "1.1.1"

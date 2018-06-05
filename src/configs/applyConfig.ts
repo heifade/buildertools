@@ -3,7 +3,7 @@ import * as path from "path";
 import { existsSync, writeFileSync, createWriteStream } from "fs";
 import chalk from "chalk";
 import { tsc } from "../utils/tsc";
-import { isObject, isString } from "util";
+import { isObject, isString, isArray } from "util";
 import { getModulesPath } from "../utils/getModulesPath";
 const rimraf = require("rimraf");
 
@@ -45,8 +45,14 @@ export async function applyConfig(pars: Props) {
           if (isString(entryValue)) {
             let modulesPath = getModulesPath();
             projConfig.entry[key] = [path.join(modulesPath, `./webpack-dev-server/client`) + `?http://localhost:${pars.port}`, entryValue];
+          } else if (isArray(entryValue)) {
+            let modulesPath = getModulesPath();
+            projConfig.entry[key] = [path.join(modulesPath, `./webpack-dev-server/client`) + `?http://localhost:${pars.port}`].concat(entryValue);
           }
         }
+      } else if (isString(entry)) {
+        let modulesPath = getModulesPath();
+        projConfig.entry = [path.join(modulesPath, `./webpack-dev-server/client`) + `?http://localhost:${pars.port}`, entry];
       }
     }
 

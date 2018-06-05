@@ -5,9 +5,13 @@ const CWD = process.cwd();
 
 let config: BuildertoolsConfig = {
   mode: "development",
-  entry: {
-    index: path.resolve(CWD, "./src/index")
-  }
+  entry: //{
+    // index: [
+    //   path.resolve(CWD, "./src/index"),
+    // ]
+  // },
+  path.resolve(CWD, "./src/index"),
+  port: 8080
 };
 
 export default config;
