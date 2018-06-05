@@ -1,29 +1,24 @@
 import * as webpack from "webpack";
 import * as path from "path";
-import { existsSync } from "fs";
+import { existsSync, writeFileSync, createWriteStream } from "fs";
 import chalk from "chalk";
 import * as browserify from "browserify";
 const tsify = require("tsify");
 
 function buildProjectConfig(file: string) {
-  return new Promise((resolve, reject) => {
-    const reader = browserify()
-      .add(file)
-      .plugin(tsify, { noImplicitAny: false, target: "es6" })
-      .bundle();
+  return new Promise<string>((resolve, reject) => {
+    let CWD = process.cwd();
+    let tempConfigFile = path.resolve(CWD, `./temp_${new Date().getTime()}.js`);
+    let configWriter = createWriteStream(tempConfigFile);
 
-    let fileContent = "";
-    reader.on("data", data => {
-      fileContent += data;
-    });
-    reader.on("end", () => {
-      let start = fileContent.indexOf("\n");
-      let end = fileContent.lastIndexOf("\n");
-      resolve(fileContent.substring(start, end));
-    });
-    reader.on("error", e => {
-      reject(e);
-    });
+    browserify()
+      .add(file)
+      .plugin(tsify, { noImplicitAny: true, target: "es6" })
+      .bundle()
+      .pipe(configWriter)
+      .on("finish", () => {
+        resolve(tempConfigFile);
+      });
   });
 }
 
@@ -32,11 +27,13 @@ export async function applyConfig(webconfig: webpack.Configuration) {
 
   let buildertoolsConfig = path.resolve(CWD, "./buildertools.config.ts");
 
-  let result = await buildProjectConfig(buildertoolsConfig);
+  let tempConfigFile = await buildProjectConfig(buildertoolsConfig);
 
-  console.log(result);
+  let config = require(tempConfigFile);
 
-  return result;
+  console.log(config);
+
+  return '';
 
   // if (!existsSync(buildertoolsConfig)) {
   //   let msg = `找不到配置文件${buildertoolsConfig}！`;
