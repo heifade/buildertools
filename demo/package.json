@@ -1,0 +1,16 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "buildertools-config": "^0.0.1-beta12",
+    "jQuery": "^1.7.4"
+  }
+}

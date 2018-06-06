@@ -1,13 +1,11 @@
 import * as webpack from "webpack";
 import * as path from "path";
 import getBabelConfig from "../babel/babel.config";
-import * as CleanWebpackPlugin from "clean-webpack-plugin";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { getToolsModulePath } from "../utils/getPath";
 import { existsSync } from "fs";
 import chalk from "chalk";
-
 
 export default function(): webpack.Configuration {
   let modules = false;
@@ -17,7 +15,7 @@ export default function(): webpack.Configuration {
 
   let config: webpack.Configuration = {
     mode: "development",
-    context: CWD,
+    // context: CWD,
     // entry: {
     //   index: [
     //     path.relative(__dirname, '../../webpack-dev-server/client'),
@@ -26,7 +24,8 @@ export default function(): webpack.Configuration {
     // },
     output: {
       path: path.resolve(CWD, "./dist"),
-      filename: "[name].[hash].js"
+      filename: "[name].[hash:8].js",
+      chunkFilename: "[name].[chunkhash:8].js"
     },
     devtool: "source-map",
     resolve: {
@@ -35,14 +34,8 @@ export default function(): webpack.Configuration {
     },
     target: "web",
     node: ["child_process", "fs", "module", "net"].reduce((last, curr) => Object.assign({}, last, { [curr]: "empty" }), {}),
-    // externals: {
-    //   moment: "moment",
-    //   react: "react",
-    //   "react-dom": "react-dom",
-    //   lodash: "lodash"
-    // },
     module: {
-      noParse: [/moment.js/],
+      noParse: [/jquery/],
       rules: [
         {
           test: /\.jsx?$/,
@@ -138,11 +131,10 @@ export default function(): webpack.Configuration {
           }
         }
       },
-      runtimeChunk: false
+      runtimeChunk: true
     },
 
     plugins: [
-      new CleanWebpackPlugin(["./dist"]),
       // new UglifyjsWebpackPlugin({
       //   parallel: true,
       //   uglifyOptions: {
@@ -168,17 +160,25 @@ export default function(): webpack.Configuration {
       //   "process.env.NODE_ENV": JSON.stringify("Hellow")
       // }),
       new MiniCssExtractPlugin({
-        filename: "[name].[hash:8].css"
+        filename: "[name].[hash:16].css"
         // chunkFilename: "[id].css"
       }),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
-      port: 8080,
-      open: true,
-      publicPath: "/"
-    }
+      publicPath: "/",
+      proxy: {}
+    },
+    performance: {
+      hints: "warning", // 有性能问题时输出警告
+      maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
+      maxEntrypointSize: 200 * 1024, // 最大入口文件大小，单位bytes
+      assetFilter: function(assetFilterName) {
+        // 过滤要检查的文件
+        return assetFilterName.endsWith(".css");
+      }
+    },
   };
 
   return config;

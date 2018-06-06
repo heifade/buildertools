@@ -1427,9 +1427,9 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buildertools-config@^0.0.1-beta4:
-  version "0.0.1-beta4"
-  resolved "https://registry.npmjs.org/buildertools-config/-/buildertools-config-0.0.1-beta4.tgz#d5a3d94194997fffe73c841a1e23d0d9cac89c92"
+buildertools-config@^0.0.1-beta12:
+  version "0.0.1-beta12"
+  resolved "https://registry.npmjs.org/buildertools-config/-/buildertools-config-0.0.1-beta12.tgz#7d94206e02650c4ab47bf655d3f863a2c2dbfbb6"
 
 builtin-modules@^1.0.0:
   version "1.1.1"
@@ -1607,12 +1607,6 @@ clean-css@4.1.x:
   resolved "https://registry.npmjs.org/clean-css/-/clean-css-4.1.11.tgz#2ecdf145aba38f54740f26cefd0ff3e03e125d6a"
   dependencies:
     source-map "0.5.x"
-
-clean-webpack-plugin@^0.1.19:
-  version "0.1.19"
-  resolved "https://registry.npmjs.org/clean-webpack-plugin/-/clean-webpack-plugin-0.1.19.tgz#ceda8bb96b00fe168e9b080272960d20fdcadd6d"
-  dependencies:
-    rimraf "^2.6.1"
 
 cli-cursor@^2.1.0:
   version "2.1.0"

@@ -28,6 +28,14 @@ export async function start(pars: StartPars) {
 
   let serverConfig: Server.Configuration = {
     ...config.devServer,
+    
+    disableHostCheck: true, // 远程可通过ip访问
+    https: false, // 是否启用https
+    clientLogLevel: "info", // 客户端日志级别
+    compress: true, // gzip 压缩
+    watchOptions: {
+      poll: 1000, // 监听文件变化频率单位毫秒
+    },
     ...{
       stats: {
         colors: true

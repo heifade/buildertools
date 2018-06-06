@@ -3,6 +3,7 @@ import * as path from "path";
 import webpackConfig from "./configs/webpack.config";
 import { applyConfig } from "./configs/applyConfig";
 import chalk from "chalk";
+const rimraf = require("rimraf");
 
 export async function build() {
   let config;
@@ -14,6 +15,11 @@ export async function build() {
   } catch (e) {
     console.log(chalk.bold.red(e));
     return;
+  }
+
+  // 删除输出目录
+  if (config.output.path) {
+    rimraf.sync(config.output.path);
   }
 
   webpack(config, (err, stats) => {

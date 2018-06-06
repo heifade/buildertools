@@ -5,11 +5,19 @@ const CWD = process.cwd();
 
 let config: BuildertoolsConfig = {
   mode: "development",
-  // entry: {
-  //   index: [path.resolve(CWD, "./src/index")]
-  // },
-  entry: [path.resolve(CWD, "./src/index")],
-  port: 8080
+  entry: {
+    index: [path.resolve(CWD, "./src/index")]
+  },
+  externals: ["jQuery"],
+  output: {
+    
+  },
+  module: {
+    noParse: [/jQuery/]
+  },
+  devServer: {
+    port: 8080
+  }
 };
 
 export default config;

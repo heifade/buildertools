@@ -5,7 +5,7 @@ import * as fs from "fs";
 export function getToolsModulePath(source: string) {
   let url = require.resolve(source);
   url = url.substr(0, url.lastIndexOf(source) + source.length);
-  console.log(url);
+  // console.log(url);
   return url;
 }
 

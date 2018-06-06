@@ -4,6 +4,7 @@ import { existsSync, writeFileSync, createWriteStream } from "fs";
 import { tsc } from "../utils/tsc";
 import { isObject, isString, isArray } from "util";
 import { getToolsModulePath } from "../utils/getPath";
+import { BuildertoolsConfig } from "buildertools-config";
 const rimraf = require("rimraf");
 
 async function buildProjectConfig(file: string) {
@@ -22,13 +23,15 @@ export interface Props {
 export async function applyConfig(pars: Props) {
   let CWD = process.cwd();
 
+  let webconfig = pars.webconfig;
+
   let buildertoolsConfig = path.resolve(CWD, "./buildertools.config.ts");
   if (!existsSync(buildertoolsConfig)) {
     throw new Error(`找不到配置文件${buildertoolsConfig}！`);
   }
 
   let tempConfigFile = await buildProjectConfig(buildertoolsConfig);
-  let projConfig = require(tempConfigFile);
+  let projConfig = require(tempConfigFile) as BuildertoolsConfig;
   rimraf.sync(tempConfigFile);
 
   let resultEntry: any = {};
@@ -38,8 +41,9 @@ export async function applyConfig(pars: Props) {
       if (isArray(projConfig.entry)) {
         resultEntry = [client].concat(projConfig.entry);
       } else if (isObject(projConfig.entry)) {
-        for (let key in projConfig.entry) {
-          let entryValue = projConfig.entry[key];
+        let entryObj = projConfig.entry as Object;
+        for (let key of Object.keys(entryObj)) {
+          let entryValue = Reflect.get(entryObj, key);
           if (isString(entryValue)) {
             resultEntry[key] = [client, entryValue];
           } else if (isArray(entryValue)) {
@@ -51,12 +55,33 @@ export async function applyConfig(pars: Props) {
       } else {
         throw Error(`未定义此entry类型！${projConfig.entry}`);
       }
+    } else {
+      resultEntry = projConfig.entry;
     }
+  } else {
+    resultEntry = webconfig.entry;
   }
 
-  let result = {
-    ...pars.webconfig,
-    entry: resultEntry
+  let projConfigOutput = projConfig.output || {};
+  let projConfigModule = projConfig.module || {};
+  let projConfigDevSer = projConfig.devServer || {};
+  let result: webpack.Configuration = {
+    ...webconfig,
+    mode: pars.isProduction ? "production" : "development",
+    entry: resultEntry,
+    output: {
+      ...webconfig.output,
+      publicPath: projConfigOutput.publicPath || ""
+    },
+    externals: projConfig.externals || webconfig.externals || [],
+    module: {
+      ...webconfig.module,
+      noParse: projConfigModule.noParse || webconfig.module.noParse || []
+    },
+    devServer: {
+      ...webconfig.devServer,
+      proxy: projConfigDevSer.proxy || {}
+    }
   };
   console.log(result);
 
