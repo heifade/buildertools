@@ -2,12 +2,19 @@ import * as webpack from "webpack";
 import * as path from "path";
 import webpackConfig from "./configs/webpack.config";
 import { applyConfig } from "./configs/applyConfig";
+import chalk from "chalk";
 
 export async function build() {
-  let config = await applyConfig({
-    isProduction: true,
-    webconfig: webpackConfig()
-  });
+  let config;
+  try {
+    config = await applyConfig({
+      isProduction: true,
+      webconfig: webpackConfig()
+    });
+  } catch (e) {
+    console.log(chalk.bold.red(e));
+    return;
+  }
 
   webpack(config, (err, stats) => {
     if (err) {
@@ -19,7 +26,6 @@ export async function build() {
     }
 
     const info = stats.toJson();
-
     if (stats.hasErrors()) {
       console.error(info.errors);
     }

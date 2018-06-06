@@ -1,10 +1,9 @@
 import * as webpack from "webpack";
 import * as path from "path";
 import { existsSync, writeFileSync, createWriteStream } from "fs";
-import chalk from "chalk";
 import { tsc } from "../utils/tsc";
 import { isObject, isString, isArray } from "util";
-import { getModulesPath } from "../utils/getModulesPath";
+import { getToolsModulePath } from "../utils/getPath";
 const rimraf = require("rimraf");
 
 async function buildProjectConfig(file: string) {
@@ -25,39 +24,41 @@ export async function applyConfig(pars: Props) {
 
   let buildertoolsConfig = path.resolve(CWD, "./buildertools.config.ts");
   if (!existsSync(buildertoolsConfig)) {
-    let msg = `找不到配置文件${buildertoolsConfig}！`;
-    console.log(chalk.bold.red(msg));
-    throw new Error(msg);
+    throw new Error(`找不到配置文件${buildertoolsConfig}！`);
   }
 
   let tempConfigFile = await buildProjectConfig(buildertoolsConfig);
-
   let projConfig = require(tempConfigFile);
-
   rimraf.sync(tempConfigFile);
 
+  let resultEntry: any = {};
   if (projConfig.entry) {
     if (!pars.isProduction) {
-      let entry = projConfig.entry;
-      if (isObject(entry)) {
-        for (let key in entry) {
-          let entryValue = entry[key];
+      let client = path.join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://localhost:${pars.port}`;
+      if (isArray(projConfig.entry)) {
+        resultEntry = [client].concat(projConfig.entry);
+      } else if (isObject(projConfig.entry)) {
+        for (let key in projConfig.entry) {
+          let entryValue = projConfig.entry[key];
           if (isString(entryValue)) {
-            let modulesPath = getModulesPath();
-            projConfig.entry[key] = [path.join(modulesPath, `./webpack-dev-server/client`) + `?http://localhost:${pars.port}`, entryValue];
+            resultEntry[key] = [client, entryValue];
           } else if (isArray(entryValue)) {
-            let modulesPath = getModulesPath();
-            projConfig.entry[key] = [path.join(modulesPath, `./webpack-dev-server/client`) + `?http://localhost:${pars.port}`].concat(entryValue);
+            resultEntry[key] = [client].concat(entryValue);
           }
         }
-      } else if (isString(entry)) {
-        let modulesPath = getModulesPath();
-        projConfig.entry = [path.join(modulesPath, `./webpack-dev-server/client`) + `?http://localhost:${pars.port}`, entry];
+      } else if (isString(projConfig.entry)) {
+        resultEntry = [client, projConfig.entry];
+      } else {
+        throw Error(`未定义此entry类型！${projConfig.entry}`);
       }
     }
-
-    pars.webconfig.entry = projConfig.entry;
   }
 
-  return pars.webconfig;
+  let result = {
+    ...pars.webconfig,
+    entry: resultEntry
+  };
+  console.log(result);
+
+  return result;
 }

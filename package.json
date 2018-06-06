@@ -1,6 +1,6 @@
 {
   "name": "buildertools",
-  "version": "1.0.0-beta15",
+  "version": "1.0.0-beta17",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -49,7 +49,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "buildertools-config": "^0.0.1-beta3",
+    "buildertools-config": "^0.0.1-beta4",
     "chalk": "^2.4.1",
     "clean-webpack-plugin": "^0.1.19",
     "commander": "^2.15.1",
@@ -68,8 +68,9 @@
     "rollup-plugin-typescript": "^0.8.1",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.3.0",
-    "webpack": "^4.10.2",
+    "webpack": "^4.11.0",
     "webpack-dev-server": "^3.1.4",
-    "yargs": "^11.0.0"
+    "yargs": "^11.0.0",
+    "url-loader": "^1.0.1"
   }
 }

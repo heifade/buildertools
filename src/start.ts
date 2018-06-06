@@ -14,12 +14,17 @@ export interface StartPars {
 export async function start(pars: StartPars) {
   let host = ip.address();
   let port = pars.port;
-
-  let config = await applyConfig({
-    isProduction: false,
-    webconfig: webpackConfig(),
-    port
-  });
+  let config;
+  try {
+    config = await applyConfig({
+      isProduction: false,
+      webconfig: webpackConfig(),
+      port
+    });
+  } catch (e) {
+    console.log(chalk.bold.red(e));
+    return;
+  }
 
   let serverConfig: Server.Configuration = {
     ...config.devServer,

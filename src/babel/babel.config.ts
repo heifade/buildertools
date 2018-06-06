@@ -1,11 +1,12 @@
 import * as path from "path";
+import { getToolsModulePath } from "../utils/getPath";
 
-export default function(modules: any, modulesPath: string) {
+export default function(modules: any) {
   return {
     presets: [
-      path.resolve(modulesPath, "babel-preset-react"),
+      getToolsModulePath("babel-preset-react"),
       [
-        path.resolve(modulesPath, "babel-preset-env"),
+        getToolsModulePath("babel-preset-env"),
         {
           modules,
           targets: {
@@ -16,11 +17,11 @@ export default function(modules: any, modulesPath: string) {
     ],
     // cacheDirectory: path.resolve(__dirname, "build-temp", "babel"),
     plugins: [
-      path.resolve(modulesPath, "babel-plugin-transform-es3-member-expression-literals"),
-      path.resolve(modulesPath, "babel-plugin-transform-es3-property-literals"),
-      path.resolve(modulesPath, "babel-plugin-transform-object-assign"),
-      path.resolve(modulesPath, "babel-plugin-transform-class-properties"),
-      path.resolve(modulesPath, "babel-plugin-transform-object-rest-spread")
+      getToolsModulePath("babel-plugin-transform-es3-member-expression-literals"),
+      getToolsModulePath("babel-plugin-transform-es3-property-literals"),
+      getToolsModulePath("babel-plugin-transform-object-assign"),
+      getToolsModulePath("babel-plugin-transform-class-properties"),
+      getToolsModulePath("babel-plugin-transform-object-rest-spread")
       // [
       //   require.resolve("babel-plugin-transform-runtime"),
       //   {

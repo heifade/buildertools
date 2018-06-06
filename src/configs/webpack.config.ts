@@ -4,15 +4,15 @@ import getBabelConfig from "../babel/babel.config";
 import * as CleanWebpackPlugin from "clean-webpack-plugin";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { getModulesPath } from "../utils/getModulesPath";
+import { getToolsModulePath } from "../utils/getPath";
 import { existsSync } from "fs";
 import chalk from "chalk";
+
 
 export default function(): webpack.Configuration {
   let modules = false;
 
-  let modulesPath = getModulesPath();
-  let babelConfig = getBabelConfig(modules || false, modulesPath);
+  let babelConfig = getBabelConfig(modules || false);
   const CWD = process.cwd();
 
   let config: webpack.Configuration = {
@@ -26,7 +26,7 @@ export default function(): webpack.Configuration {
     // },
     output: {
       path: path.resolve(CWD, "./dist"),
-      filename: "[name].[hash:8].js"
+      filename: "[name].[hash].js"
     },
     devtool: "source-map",
     resolve: {
@@ -47,7 +47,7 @@ export default function(): webpack.Configuration {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          loader: path.resolve(modulesPath, "babel-loader"),
+          loader: getToolsModulePath("babel-loader"),
           options: babelConfig
         },
         {
@@ -55,7 +55,7 @@ export default function(): webpack.Configuration {
           exclude: [/node_modules/],
           use: [
             {
-              loader: path.resolve(modulesPath, "babel-loader"),
+              loader: getToolsModulePath("babel-loader"),
               options: babelConfig
             },
             // {
@@ -64,7 +64,7 @@ export default function(): webpack.Configuration {
             //   }
             // },
             {
-              loader: path.resolve(modulesPath, "ts-loader"),
+              loader: getToolsModulePath("ts-loader"),
               options: { transpileOnly: true }
             }
           ]
@@ -74,7 +74,7 @@ export default function(): webpack.Configuration {
           use: [
             MiniCssExtractPlugin.loader,
             {
-              loader: path.resolve(modulesPath, "css-loader"),
+              loader: getToolsModulePath("css-loader"),
               options: {
                 //modules: true
               }
@@ -87,10 +87,10 @@ export default function(): webpack.Configuration {
           use: [
             MiniCssExtractPlugin.loader,
             // {
-            //   loader: path.resolve(modulesPath, "style-loader"),
+            //   loader: getPath("style-loader"),
             // },
             {
-              loader: path.resolve(modulesPath, "css-loader"),
+              loader: getToolsModulePath("css-loader"),
               options: {
                 modules: true
               }
@@ -102,7 +102,7 @@ export default function(): webpack.Configuration {
             //   )
             // },
             {
-              loader: path.resolve(modulesPath, "less-loader"),
+              loader: getToolsModulePath("less-loader"),
               options: {}
             }
           ]
@@ -110,7 +110,7 @@ export default function(): webpack.Configuration {
         {
           test: /\.(woff|woff2|eot|ttf|otf|png|svg|gif|jpe?g)$/,
           exclude: /node_modules/,
-          loader: path.resolve(modulesPath, "url-loader"),
+          loader: getToolsModulePath("url-loader"),
           options: {
             // name: "[chunkhash:8].[name].[ext]",
             name: "[name].[ext]",
@@ -138,7 +138,7 @@ export default function(): webpack.Configuration {
           }
         }
       },
-      runtimeChunk: true
+      runtimeChunk: false
     },
 
     plugins: [
@@ -168,7 +168,7 @@ export default function(): webpack.Configuration {
       //   "process.env.NODE_ENV": JSON.stringify("Hellow")
       // }),
       new MiniCssExtractPlugin({
-        filename: "[name].[chunkhash:8].css"
+        filename: "[name].[hash:8].css"
         // chunkFilename: "[id].css"
       }),
       new webpack.NamedModulesPlugin(),
