@@ -6,6 +6,8 @@
 # production
 /dist
 /demo/dist
+/demo/node_modules
+/demo/yarn.lock
 
 # misc
 .DS_Store
