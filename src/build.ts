@@ -9,8 +9,9 @@ export async function build() {
   let config;
   try {
     config = await applyConfig({
-      isProduction: true,
-      webconfig: webpackConfig()
+      // isProduction: true,
+      isProduction: false,
+      webconfig: await webpackConfig()
     });
   } catch (e) {
     console.log(chalk.bold.red(e));

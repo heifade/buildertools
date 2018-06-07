@@ -18,7 +18,7 @@ export async function start(pars: StartPars) {
   try {
     config = await applyConfig({
       isProduction: false,
-      webconfig: webpackConfig(),
+      webconfig: await webpackConfig(),
       port
     });
   } catch (e) {

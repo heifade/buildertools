@@ -7,7 +7,9 @@
     "jsx": "react",
     "module": "commonjs",
     // "types" : ["node"],
-    "declaration": true
+    "declaration": true,
+    "sourceMap": true,
   },
-  "exclude": ["node_modules", "lib", "es"]
+  // "exclude": ["node_modules"]
 }
+
