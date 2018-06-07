@@ -15,7 +15,7 @@ export default function(modules: any) {
         }
       ]
     ],
-    // cacheDirectory: path.resolve(__dirname, "build-temp", "babel"),
+    cacheDirectory: path.resolve(process.cwd(), "build-temp/babel"),
     plugins: [
       getToolsModulePath("babel-plugin-transform-es3-member-expression-literals"),
       getToolsModulePath("babel-plugin-transform-es3-property-literals"),

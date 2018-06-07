@@ -6,6 +6,7 @@ import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { getToolsModulePath } from "../utils/getPath";
 import { existsSync } from "fs";
 import chalk from "chalk";
+// const ImageminPlugin = require("imagemin-webpack-plugin"); //压缩图片插件
 
 export default function() {
   return new Promise<webpack.Configuration>((resolve, reject) => {
@@ -30,7 +31,7 @@ export default function() {
       },
       devtool: "source-map",
       resolve: {
-        modules: ["node_modules", path.join(CWD, "../node_modules")],
+        modules: [path.join(__dirname, "../../node_modules"), path.join(CWD, "../node_modules")],
         extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
       },
       target: "web",
@@ -107,6 +108,10 @@ export default function() {
               limit: 120
             }
           }
+          // {
+          //   test: /\.svg$/,
+          //   loader: getToolsModulePath("svg-inline-loader"), // 能压缩svg内容
+          // }
         ]
       },
       optimization: {
@@ -161,6 +166,11 @@ export default function() {
         }),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
+        // new ImageminPlugin.default({
+        //   optipng: {
+        //     optimizationLevel: 9
+        //   }
+        // })
       ],
       devServer: {
         publicPath: "/",

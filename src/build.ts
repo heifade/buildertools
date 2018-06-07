@@ -23,6 +23,10 @@ export async function build() {
     rimraf.sync(config.output.path);
   }
 
+  // 删除构建临时目录
+  // rimraf.sync(path.resolve(process.cwd(), "build-temp"));
+  
+
   webpack(config, (err, stats) => {
     if (err) {
       console.error(err.stack || err);

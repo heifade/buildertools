@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 43 Copy 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-43-Copy-5">
+            <circle id="Oval-2-Copy-3" fill="#FFFFFF" cx="15.5" cy="15.5" r="15.5"></circle>
+            <g id="Group-42-Copy" transform="translate(6.000000, 8.000000)" fill="#215FEA">
+                <rect id="Rectangle-6-Copy" x="5" y="7" width="14" height="2" rx="1"></rect>
+                <rect id="Rectangle-6-Copy-3" x="5" y="1" width="14" height="2" rx="1"></rect>
+                <rect id="Rectangle-6-Copy-2" x="5" y="13" width="14" height="2" rx="1"></rect>
+                <path d="M0,2.10000002 C0,2.92843475 0.671565277,3.60000002 1.5,3.60000002 C2.32846488,3.60000002 3,2.92843475 3,2.10000002 C3,1.27153515 2.32846488,0.600000024 1.5,0.600000024 C0.671565277,0.600000024 0,1.27153515 0,2.10000002" id="Fill-7-Copy"></path>
+                <path d="M0,8.10000002 C0,8.92843475 0.671565277,9.60000002 1.5,9.60000002 C2.32846488,9.60000002 3,8.92843475 3,8.10000002 C3,7.27153515 2.32846488,6.60000002 1.5,6.60000002 C0.671565277,6.60000002 0,7.27153515 0,8.10000002" id="Fill-7-Copy-2"></path>
+                <path d="M0,14.1 C0,14.9284347 0.671565277,15.6 1.5,15.6 C2.32846488,15.6 3,14.9284347 3,14.1 C3,13.2715351 2.32846488,12.6 1.5,12.6 C0.671565277,12.6 0,13.2715351 0,14.1" id="Fill-7-Copy-3"></path>
+            </g>
+        </g>
+    </g>
+</svg>
