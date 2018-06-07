@@ -11,11 +11,11 @@
     "dist"
   ],
   "scripts": {
-    "precommit": "node ./src/utils/a.js",
+    "precommit": "node ./dist/utils/addVersion.js",
     "build": "gulp build",
     "build-demo": "npm run build && cd ./demo && node ../bin/buildertools.js build",
     "start-demo": "npm run build && cd ./demo && node ../bin/buildertools.js start -p 3008",
-    "pub": "npm run build && node ./dist/utils/addVersion.js && npm publish"
+    "pub": "npm run build && npm publish"
   },
   "keywords": [],
   "author": "",
