@@ -21,7 +21,7 @@ export default function(modules: any) {
       getToolsModulePath("babel-plugin-transform-es3-property-literals"),
       getToolsModulePath("babel-plugin-transform-object-assign"),
       getToolsModulePath("babel-plugin-transform-class-properties"),
-      getToolsModulePath("babel-plugin-transform-object-rest-spread"),
+      getToolsModulePath("babel-plugin-transform-object-rest-spread")
       // [
       //   getToolsModulePath("babel-plugin-transform-runtime"),
       //   {

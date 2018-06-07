@@ -11,6 +11,7 @@
     "dist"
   ],
   "scripts": {
+    "precommit": "node ./src/utils/a.js",
     "build": "gulp build",
     "build-demo": "npm run build && cd ./demo && node ../bin/buildertools.js build",
     "start-demo": "npm run build && cd ./demo && node ../bin/buildertools.js start -p 3008",
