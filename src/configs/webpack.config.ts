@@ -7,7 +7,6 @@ import { getToolsModulePath } from "../utils/getPath";
 import { existsSync } from "fs";
 import chalk from "chalk";
 
-
 export default function() {
   return new Promise<webpack.Configuration>((resolve, reject) => {
     let modules = false;
@@ -92,12 +91,6 @@ export default function() {
                   modules: true
                 }
               },
-              // {
-              //   loader: path.resolve(
-              //     projectRootPath,
-              //     "./build-tools/loaders/lessToCss-loader.js"
-              //   )
-              // },
               {
                 loader: getToolsModulePath("less-loader"),
                 options: {}
@@ -109,8 +102,7 @@ export default function() {
             exclude: /node_modules/,
             loader: getToolsModulePath("url-loader"),
             options: {
-              // name: "[chunkhash:8].[name].[ext]",
-              name: "[name].[ext]",
+              name: "[name].[hash:8].[ext]",
               outputPath: "imgs/",
               limit: 120
             }
